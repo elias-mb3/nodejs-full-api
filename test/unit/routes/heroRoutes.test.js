@@ -1,12 +1,11 @@
-import { mock, test } from "node:test";
+import { mock, describe, it } from "node:test";
 import assert from "node:assert";
-
 import { routes } from "../../../src/routes/heroRoutes.js";
 import { JSON_HEADERS } from "../../../src/utils/utils.js";
 
-test("Hero routes - endpoint test suites", async (t) => {
-  await t.test("it should call /heroes:get route", async () => {
-    const databseMock = [
+describe("Hero routes - endpoint test suites", () => {
+  it("should call /heroes:get route", async () => {
+    const databaseMock = [
       {
         id: "dfff4dc8-e402-4c37-bbb9-3ff149f100dd",
         name: "Batman",
@@ -16,7 +15,7 @@ test("Hero routes - endpoint test suites", async (t) => {
     ];
 
     const heroServiceStub = {
-      find: async () => databseMock,
+      find: async () => databaseMock,
     };
 
     const endpoints = routes({
@@ -27,13 +26,14 @@ test("Hero routes - endpoint test suites", async (t) => {
     const request = {};
 
     const mockedWrite = mock.fn((item) => {
-      const expected = JSON.stringify({ results: databseMock });
+      const expected = JSON.stringify({ results: databaseMock });
       assert.strictEqual(
         item,
         expected,
         "write should be called with the correct payload"
       );
     });
+
     const mockedEnd = mock.fn((item) => {
       assert.strictEqual(
         item,
@@ -41,10 +41,12 @@ test("Hero routes - endpoint test suites", async (t) => {
         "end should be called without params"
       );
     });
+
     const response = {
       write: mockedWrite,
       end: mockedEnd,
     };
+
     const route = endpoints[endpoint];
 
     await route(request, response);
