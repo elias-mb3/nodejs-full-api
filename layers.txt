@@ -1,0 +1,18 @@
+N-Layers
+src // all code
+- entities // object mapping
+- factory // intance generators
+- repositories // data acess
+- routes // endpoints mapping
+- services // (business logic) comunication between routes and repositories layers
+- utils // shared code
+- handler // comunication between routes and server
+- index.js // entry point server instance
+
+databese
+
+test // all autometes test suits
+- integration test
+- unit test
+
+
